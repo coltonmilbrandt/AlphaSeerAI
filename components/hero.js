@@ -37,13 +37,12 @@ export default function Hero() {
 								</div>
 								<div>
 									<h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-5xl">
-										Land a Higher Paying Job Faster with an
-										AI Enhanced Resume
+										Take Advantage of the Hidden
+										Opportunities Only AI Can Uncover.
 									</h1>
 									<p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-										Create your resume fast with an AI
-										assistant, optimize for ATS, and get{" "}
-										<b>paid more</b>.
+										See&nbsp;into&nbsp;the&nbsp;future&nbsp;with&nbsp;AI-powered&nbsp;charts,&nbsp;and&nbsp;analyze
+										emerging&nbsp;facts&nbsp;and&nbsp;sentiment&nbsp;quicker&nbsp;than&nbsp;ever&nbsp;before.
 									</p>
 									<div class="mt-8 flex gap-x-4 sm:justify-center">
 										<a
