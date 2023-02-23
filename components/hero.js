@@ -18,7 +18,8 @@ export default function Hero() {
 								<div class="hidden sm:mb-8 sm:flex sm:justify-center">
 									<div class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
 										<span class="text-gray-600">
-											Are you even optimizing for ATS?{" "}
+											Why those who don't use AI will be
+											left in the dust.{" "}
 											<a
 												href="#"
 												class="font-semibold text-indigo-600"
