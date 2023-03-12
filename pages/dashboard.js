@@ -5,6 +5,8 @@ import styles from "@/styles/Home.module.css"
 import Link from "next/link"
 import Navbar from "../components/navbar"
 import { useRouter } from "next/router"
+import { createChart } from "lightweight-charts"
+import Chart from "../components/chart"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -46,7 +48,9 @@ export default function Dashboard() {
 						<div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
 							{/* <!-- Replace with your content --> */}
 							<div class="px-4 py-6 sm:px-0">
-								<div class="h-96 rounded-lg border-4 border-dashed border-gray-200"></div>
+								<div class="h-96 rounded-lg border-4 border-dashed border-gray-200">
+									<Chart />
+								</div>
 							</div>
 							{/* <!-- /End replace --> */}
 						</div>
