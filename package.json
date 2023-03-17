@@ -5,9 +5,9 @@
   "scripts": {
     "build": "next build",
     "start": "cross-env NODE_ENV=production node app",
-    "dev": "cross-env NODE_ENV=production nodemon app",
+    "dev": "next dev",
     "lint": "next lint",
-    "server": "node ./server/server.js"
+    "server": "cross-env NODE_ENV=development nodemon ./lib/mongo/server.js"
   },
   "dependencies": {
     "@next/font": "13.1.2",

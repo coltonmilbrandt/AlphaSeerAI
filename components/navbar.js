@@ -32,7 +32,13 @@ export default function Navbar() {
 										Dashboard
 									</Link>
 									<a
-										href="/"
+										href="/signup"
+										class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+									>
+										Sign Up
+									</a>
+									<a
+										href="/login"
 										class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
 									>
 										Login

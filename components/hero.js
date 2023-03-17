@@ -38,9 +38,12 @@ export default function Hero() {
 								</div>
 								<div>
 									<h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-5xl">
+										Find the Hidden Gems Only AI Can Uncover
+									</h1>
+									{/* <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-5xl">
 										Take Advantage of the Hidden
 										Opportunities Only AI Can Uncover.
-									</h1>
+									</h1> */}
 									<p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
 										See&nbsp;into&nbsp;the&nbsp;future&nbsp;with&nbsp;AI-powered&nbsp;charts,&nbsp;and&nbsp;analyze
 										emerging&nbsp;facts&nbsp;and&nbsp;sentiment&nbsp;quicker&nbsp;than&nbsp;ever&nbsp;before.

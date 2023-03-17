@@ -15,10 +15,10 @@ export default function Dashboard() {
 	return (
 		<>
 			<Head>
-				<title>GoSumé</title>
+				<title>GemAI</title>
 				<meta
-					name="Land a better job"
-					content="AI Driven Resume Builder"
+					name="Your AI Finance Assistant"
+					content="Cutting edge AI Finance"
 				/>
 				<meta
 					name="viewport"
