@@ -3,12 +3,17 @@ import Navbar from "../components/navbar"
 import { useRouter } from "next/router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Chart from "../components/chart"
+import { useState } from "react"
 
 // import the icons you need
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons"
 
 export default function Login() {
 	const router = useRouter()
+
+	const [passwordIsValid, setPasswordIsValid] = useState(null)
+	const [usernameIsValid, setUsernameIsValid] = useState(null)
+
 	return (
 		<>
 			<Head>
@@ -47,7 +52,12 @@ export default function Login() {
 													Username
 												</label>
 												<input
-													class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+													class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+														usernameIsValid ===
+														false
+															? "border-red-500"
+															: ""
+													}`}
 													id="username"
 													type="text"
 													placeholder="Username"
@@ -61,12 +71,24 @@ export default function Login() {
 													Password
 												</label>
 												<input
-													class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+													class={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+														passwordIsValid ===
+														false
+															? "border-red-500"
+															: ""
+													}`}
 													id="password"
 													type="password"
 													placeholder="******************"
 												/>
-												<p class="text-red-500 text-xs italic">
+												<p
+													class={`text-red-500 text-xs italic ${
+														passwordIsValid ===
+														false
+															? "block"
+															: "hidden"
+													}`}
+												>
 													Please choose a password.
 												</p>
 											</div>
@@ -90,6 +112,7 @@ export default function Login() {
 											<div class="flex justify-center space-x-2">
 												<button
 													type="button"
+													href="/google"
 													data-te-ripple-init
 													data-te-ripple-color="light"
 													class="flex items-center w-full rounded bg-[#eb4132] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
