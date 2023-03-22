@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Chart from "../components/chart"
 import { useState } from "react"
+import Link from "next/link"
 
 // import the icons you need
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons"
@@ -13,6 +14,21 @@ export default function Login() {
 
 	const [passwordIsValid, setPasswordIsValid] = useState(null)
 	const [usernameIsValid, setUsernameIsValid] = useState(null)
+
+	function logInWithGoogle() {
+		// fetch("/api/google")
+		// 	.then((res) => {
+		// 		if (res.status === 200) {
+		// 			router.push("/dashboard")
+		// 		}
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err)
+		// 	})
+		fetch("/api/hello")
+			.then((response) => response.json())
+			.then((data) => console.log(data.name))
+	}
 
 	return (
 		<>
@@ -111,8 +127,10 @@ export default function Login() {
 										<div className="space-y-2">
 											<div class="flex justify-center space-x-2">
 												<button
+													onClick={() =>
+														logInWithGoogle()
+													}
 													type="button"
-													href="/google"
 													data-te-ripple-init
 													data-te-ripple-color="light"
 													class="flex items-center w-full rounded bg-[#eb4132] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
