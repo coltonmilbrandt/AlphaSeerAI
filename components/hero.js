@@ -38,7 +38,7 @@ export default function Hero() {
 								</div>
 								<div>
 									<h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-5xl">
-										Find the Hidden Gems Only AI Can Uncover
+										Use Tomorrow's Data Today.
 									</h1>
 									{/* <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-5xl">
 										Take Advantage of the Hidden

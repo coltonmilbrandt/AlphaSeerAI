@@ -16,7 +16,10 @@ export default function Login() {
 	const [usernameIsValid, setUsernameIsValid] = useState(null)
 
 	function logInWithGoogle() {
-		// fetch("/api/google")
+		// console.log(`${process.env.NEXT_URL}/auth/google/callback`)
+		// console.log(`${process.env.NEXT_PUBLIC_API_URL}/auth/google/callback`)
+		// // Use the environment variable for API URL
+		// fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth`)
 		// 	.then((res) => {
 		// 		if (res.status === 200) {
 		// 			router.push("/dashboard")
@@ -25,9 +28,6 @@ export default function Login() {
 		// 	.catch((err) => {
 		// 		console.log(err)
 		// 	})
-		fetch("/api/hello")
-			.then((response) => response.json())
-			.then((data) => console.log(data.name))
 	}
 
 	return (
@@ -126,22 +126,27 @@ export default function Login() {
 										<div className="border-t-2 mb-6 mt-6"></div>
 										<div className="space-y-2">
 											<div class="flex justify-center space-x-2">
-												<button
-													onClick={() =>
-														logInWithGoogle()
-													}
-													type="button"
-													data-te-ripple-init
-													data-te-ripple-color="light"
-													class="flex items-center w-full rounded bg-[#eb4132] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+												<a
+													href={`${process.env.NEXT_PUBLIC_API_URL}/google`}
 												>
-													<FontAwesomeIcon
-														icon={faGoogle}
-														size="lg"
-														className="mr-3"
-													/>
-													Log In with Google
-												</button>
+													google
+													{/* <button
+														// onClick={() =>
+														// 	logInWithGoogle()
+														// }
+														type="button"
+														data-te-ripple-init
+														data-te-ripple-color="light"
+														class="flex items-center w-full rounded bg-[#eb4132] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+													>
+														<FontAwesomeIcon
+															icon={faGoogle}
+															size="lg"
+															className="mr-3"
+														/>
+														Log In with Google
+													</button> */}
+												</a>
 											</div>
 											<div class="flex justify-center space-x-2 ">
 												<button
