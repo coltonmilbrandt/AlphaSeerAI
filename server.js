@@ -84,14 +84,14 @@ app.use(passport.session())
 
 // Routes
 app.get(
-	"/auth/google",
+	"/api/auth/google",
 	passport.authenticate("google", {
 		scope: ["profile", "email"],
 	})
 )
 
 app.get(
-	"/auth/google/callback",
+	"/api/auth/google/callback",
 	passport.authenticate("google", { failureRedirect: "/login" }),
 	(req, res) => {
 		res.redirect("/")

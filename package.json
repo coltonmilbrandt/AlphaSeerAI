@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production node app",
     "dev": "next dev",
     "lint": "next lint",
-    "server": "cross-env NODE_ENV=development nodemon ./lib/mongo/server.js",
+    "server": "cross-env NODE_ENV=development nodemon server.js",
     "double-dev": "concurrently \"yarn run dev\" \"yarn run server\""
   },
   "dependencies": {
