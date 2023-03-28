@@ -126,9 +126,7 @@ export default function Login() {
 										<div className="border-t-2 mb-6 mt-6"></div>
 										<div className="space-y-2">
 											<div class="flex justify-center space-x-2">
-												<a
-													href={`${process.env.NEXT_PUBLIC_API_URL}/google`}
-												>
+												<a href="/api/auth/google">
 													google
 													{/* <button
 														// onClick={() =>
