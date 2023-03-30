@@ -6,7 +6,8 @@ const cookieSession = require("cookie-session")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const dotenv = require("dotenv")
 const morgan = require("morgan") // makes it so every request shows in console
-dotenv.config()
+dotenv.config({ path: ".env.local" })
+const router = express.Router()
 
 const app = express()
 app.use(cors())
@@ -35,32 +36,41 @@ const userSchema = new mongoose.Schema({
 	email: String,
 })
 
-const User = mongoose.model("User", userSchema)
+const User =
+	mongoose.connection.models.User || mongoose.model("User", userSchema)
+
+// Check if User model exists before defining it
+if (!mongoose.connection.models.User) {
+	mongoose.model("User", userSchema)
+}
 
 // Passport setup
-passport.use(
-	new GoogleStrategy(
-		{
-			clientID: process.env.GOOGLE_CLIENT_ID,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "/auth/google/callback",
-		},
-		async (accessToken, refreshToken, profile, done) => {
-			const existingUser = await User.findOne({ googleId: profile.id })
+const GoogleStrategyConfig = new GoogleStrategy(
+	{
+		clientID: process.env.GOOGLE_CLIENT_ID,
+		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+		callbackURL: "/api/auth/google/callback",
+	},
+	async (accessToken, refreshToken, profile, done) => {
+		const existingUser = await User.findOne({ googleId: profile.id })
 
-			if (existingUser) {
-				return done(null, existingUser)
-			}
+		console.log("accessToken:", accessToken)
+		console.log("refreshToken:", refreshToken)
+		console.log("profile:", profile)
+		console.log("existingUser:", existingUser)
 
-			const newUser = await new User({
-				googleId: profile.id,
-				displayName: profile.displayName,
-				email: profile.emails[0].value,
-			}).save()
-
-			done(null, newUser)
+		if (existingUser) {
+			return done(null, existingUser)
 		}
-	)
+
+		const newUser = await new User({
+			googleId: profile.id,
+			displayName: profile.displayName,
+			email: profile.emails[0].value,
+		}).save()
+
+		done(null, newUser)
+	}
 )
 
 passport.serializeUser((user, done) => {
@@ -112,3 +122,6 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
 })
+
+// Export the GoogleStrategyConfig
+module.exports = { GoogleStrategyConfig }
