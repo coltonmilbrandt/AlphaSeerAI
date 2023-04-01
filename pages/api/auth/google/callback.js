@@ -1,4 +1,5 @@
 import passport from "passport"
+import jwt from "jsonwebtoken"
 import { GoogleStrategyConfig } from "../../../../server"
 
 passport.use(GoogleStrategyConfig)
@@ -13,11 +14,24 @@ export default (req, res) => {
 				res.status(400).send(err)
 			} else {
 				console.log("user:", user)
-				// Set a cookie or session to store the user ID or other data
-				req.session.userId = user._id
+
+				// Create a JWT for the user ID
+				const token = jwt.sign(
+					{ userId: user._id },
+					process.env.JWT_SECRET,
+					{
+						expiresIn: "30d",
+					}
+				)
+
+				// Set the JWT as a cookie
+				res.setHeader(
+					"Set-Cookie",
+					`token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax`
+				)
 
 				// Redirect the user to the home page
-				res.redirect("/")
+				res.redirect("/dashboard")
 			}
 		}
 	)(req, res)

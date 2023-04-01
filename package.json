@@ -27,6 +27,7 @@
     "express-handlebars": "^7.0.2",
     "express-session": "^1.17.3",
     "http-proxy-middleware": "^2.0.6",
+    "jsonwebtoken": "^9.0.0",
     "lightweight-charts": "^4.0.0",
     "method-override": "^3.0.0",
     "moment": "^2.29.4",
