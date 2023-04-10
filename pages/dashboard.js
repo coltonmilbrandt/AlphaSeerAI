@@ -15,7 +15,7 @@ export default function Dashboard() {
 	return (
 		<>
 			<Head>
-				<title>GemAI</title>
+				<title>AlphaSeer AI - Dashboard</title>
 				<meta
 					name="Your AI Finance Assistant"
 					content="Cutting edge AI Finance"

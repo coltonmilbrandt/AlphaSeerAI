@@ -8,7 +8,7 @@ export default function Signup() {
 	return (
 		<>
 			<Head>
-				<title>GemAI</title>
+				<title>AlphaSeerAI - Sign Up</title>
 				<meta
 					name="Your AI Finance Assistant"
 					content="Cutting edge AI Finance"

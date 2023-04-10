@@ -13,7 +13,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>GemAI</title>
+				<title>AlphaSeer AI</title>
 				<meta
 					name="Your AI Finance Assistant"
 					content="Cutting edge AI Finance"
