@@ -4,6 +4,7 @@ import { Inter } from "@next/font/google"
 import Navbar from "../components/navbar"
 import Hero from "../components/hero"
 import { useRouter } from "next/router"
+import React from "react"
 import Link from "next/link"
 
 const inter = Inter({ subsets: ["latin"] })
