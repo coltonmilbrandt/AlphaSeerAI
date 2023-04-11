@@ -16,13 +16,14 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react"
+    "jsx": "preserve"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "components/chart.js"  ],
+    "**/*.tsx",
+    "components/chart.js"
+  ],
   "exclude": [
     "node_modules"
   ]

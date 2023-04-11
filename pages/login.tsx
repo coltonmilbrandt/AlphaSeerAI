@@ -16,7 +16,7 @@ export default function Login() {
   const [passwordIsValid, setPasswordIsValid] = useState<boolean | null>(null);
   const [usernameIsValid, setUsernameIsValid] = useState<boolean | null>(null);
 
-  return (
+  	return (
 		<>
 			<Head>
 				<title>AlphaSeerAI - Login</title>

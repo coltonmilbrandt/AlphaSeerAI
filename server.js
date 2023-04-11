@@ -55,7 +55,7 @@ const GoogleStrategyConfig = new GoogleStrategy(
 	},
 	async (req, accessToken, refreshToken, profile, done) => {
 		console.log("profile ID:", profile.id)
-		const existingUser = await User.findOne({ googleId: profile.id })
+		let existingUser = await User.findOne({ googleId: profile.id })
 
 		console.log("accessToken:", accessToken)
 		console.log("refreshToken:", refreshToken)
@@ -63,22 +63,11 @@ const GoogleStrategyConfig = new GoogleStrategy(
 		console.log("existingUser:", existingUser)
 		console.log("reqQueryState:", req.query.state)
 
-		// If the user exists and the state is 'signup', return an error
-		if (existingUser && req.query.state === "signup") {
-			return done(new Error("User already exists"), null)
-		}
-
-		// If the user exists and the state is not 'signup', log the user in
 		if (existingUser) {
-			if (existingUser) {
-				return res.redirect("/dashboard")
-			} else {
-				return res.redirect("/login")
-			}
-		}
-
-		// If the state is 'signup', create a new user
-		if (req.query.state === "signup") {
+			// If the user exists, log the user in
+			done(null, existingUser)
+		} else {
+			// If the user doesn't exist, create a new user
 			const newUser = await new User({
 				googleId: profile.id,
 				displayName: profile.displayName,
@@ -86,9 +75,6 @@ const GoogleStrategyConfig = new GoogleStrategy(
 			}).save()
 
 			done(null, newUser)
-		} else {
-			// If the state is not 'signup' and the user doesn't exist, return an error
-			return done(new Error("User not found"), null)
 		}
 	}
 )
@@ -98,19 +84,19 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (id, done) => {
-	// const user = await User.findById(id)
+	const user = await User.findById(id)
 	done(null, id)
 })
 
 // Middlewares
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(
 	cookieSession({
 		maxAge: 30 * 24 * 60 * 60 * 1000,
 		keys: [process.env.COOKIE_KEY],
 	})
 )
-app.use(passport.initialize())
-app.use(passport.session())
 
 // Start server
 const PORT = process.env.PORT || 3001

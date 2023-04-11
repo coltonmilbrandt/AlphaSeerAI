@@ -7,12 +7,23 @@ import Navbar from "../components/navbar"
 import { useRouter } from "next/router"
 import { createChart } from "lightweight-charts"
 import Chart from "../components/chart"
-import React from "react"
+import React, { useEffect } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function Dashboard() {
 	const router = useRouter()
+
+	useEffect(() => {
+		fetch('/api/dashboard')
+			.then((response) => {
+			if (response.status === 401) {
+				router.push('/login');
+			}
+		})
+		.catch((error) => console.error('Error fetching data:', error));
+	}, []);
+
 	return (
 		<>
 			<Head>
