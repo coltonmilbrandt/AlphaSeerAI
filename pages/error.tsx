@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export default function Dashboard() {
 	const router = useRouter()
+    const errorMessage = router.query.error
 
     return (
 		<>
@@ -45,7 +46,7 @@ export default function Dashboard() {
                                         Something went wrong.
                                     </p>
                                     <p className="text-xl tracking-tight text-gray-700 dark:text-neutral-400">
-                                        Either there was an error, or you are not authorized to view this page.
+                                        {errorMessage || "An unknown error occurred."}
                                     </p>
                                     <a href="/login">
                                         <button className="bg-blue-500 hover:bg-blue-700 mt-4 text-white font-bold py-2 px-4 rounded">

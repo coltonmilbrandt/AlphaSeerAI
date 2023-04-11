@@ -9,12 +9,13 @@ export default async (req, res) => {
 		if (err) {
 			console.log("Callback Error: authenticate returned error")
 			console.error(err)
-			return res.redirect("/error")
+			return res.redirect(`/error?error=${err.message}`)
 		}
 
 		if (!user) {
-			console.log("Callback Error: No user returned from Google")
-			return res.redirect("/dashboard")
+			const noUserError = "No user returned from Google"
+			console.log(noUserError)
+			return res.redirect(`/error?error=${noUserError}`)
 		}
 
 		// Create a JWT for the user ID
