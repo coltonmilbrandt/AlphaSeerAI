@@ -111,6 +111,15 @@ export default function Login() {
 										</form>
 										<div className="border-t-2 mb-6 mt-6"></div>
 										<div className="space-y-2">
+										<a href="/api/auth/google/signup" className="w-full">
+											<button
+												type="button"
+												className="flex items-center w-full rounded bg-[#eb4132] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+											>
+												<FontAwesomeIcon icon={faGoogle} size="lg" className="mr-3" />
+												Sign Up with Google
+											</button>
+										</a>
 											<div className="flex justify-center space-x-2">
 												<a
 													href="/api/auth/google"

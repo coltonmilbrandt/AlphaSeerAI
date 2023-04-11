@@ -27,6 +27,7 @@ db.once("open", () => {
 if (process.env.NODE_ENV === "development") {
 	// if development, log requests with morgan
 	app.use(morgan("dev"))
+	console.log("Logging enabled")
 }
 
 // User schema and model
@@ -50,26 +51,45 @@ const GoogleStrategyConfig = new GoogleStrategy(
 		clientID: process.env.GOOGLE_CLIENT_ID,
 		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		callbackURL: "/api/auth/google/callback",
+		passReqToCallback: true, // this code breaks, so that profile.id is undefined
 	},
-	async (accessToken, refreshToken, profile, done) => {
+	async (req, accessToken, refreshToken, profile, done) => {
+		console.log("profile ID:", profile.id)
 		const existingUser = await User.findOne({ googleId: profile.id })
 
 		console.log("accessToken:", accessToken)
 		console.log("refreshToken:", refreshToken)
 		console.log("profile:", profile)
 		console.log("existingUser:", existingUser)
+		console.log("reqQueryState:", req.query.state)
 
-		if (existingUser) {
-			return done(null, existingUser)
+		// If the user exists and the state is 'signup', return an error
+		if (existingUser && req.query.state === "signup") {
+			return done(new Error("User already exists"), null)
 		}
 
-		const newUser = await new User({
-			googleId: profile.id,
-			displayName: profile.displayName,
-			email: profile.emails[0].value,
-		}).save()
+		// If the user exists and the state is not 'signup', log the user in
+		if (existingUser) {
+			if (existingUser) {
+				return res.redirect("/dashboard")
+			} else {
+				return res.redirect("/login")
+			}
+		}
 
-		done(null, newUser)
+		// If the state is 'signup', create a new user
+		if (req.query.state === "signup") {
+			const newUser = await new User({
+				googleId: profile.id,
+				displayName: profile.displayName,
+				email: profile.emails[0].value,
+			}).save()
+
+			done(null, newUser)
+		} else {
+			// If the state is not 'signup' and the user doesn't exist, return an error
+			return done(new Error("User not found"), null)
+		}
 	}
 )
 
@@ -78,8 +98,8 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser(async (id, done) => {
-	const user = await User.findById(id)
-	done(null, user)
+	// const user = await User.findById(id)
+	done(null, id)
 })
 
 // Middlewares
@@ -91,31 +111,6 @@ app.use(
 )
 app.use(passport.initialize())
 app.use(passport.session())
-
-// Routes
-app.get(
-	"/api/auth/google",
-	passport.authenticate("google", {
-		scope: ["profile", "email"],
-	})
-)
-
-app.get(
-	"/api/auth/google/callback",
-	passport.authenticate("google", { failureRedirect: "/login" }),
-	(req, res) => {
-		res.redirect("/")
-	}
-)
-
-app.get("/api/logout", (req, res) => {
-	req.logout()
-	res.redirect("/")
-})
-
-app.get("/api/current_user", (req, res) => {
-	res.send(req.user)
-})
 
 // Start server
 const PORT = process.env.PORT || 3001
