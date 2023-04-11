@@ -44,6 +44,12 @@ export default function Navbar() {
 									>
 										Login
 									</a>
+									<a
+										href="/api/auth/logout"
+										className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+									>
+										Logout
+									</a>
 								</div>
 							</div>
 						</div>
