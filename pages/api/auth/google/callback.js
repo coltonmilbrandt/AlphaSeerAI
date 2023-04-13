@@ -5,6 +5,7 @@ import { GoogleStrategyConfig } from "../../../../server"
 passport.use(GoogleStrategyConfig)
 
 export default async (req, res) => {
+	console.log("arrived at callback route")
 	passport.authenticate("google", { session: false }, async (err, user) => {
 		if (err) {
 			console.log("Callback Error: authenticate returned error")

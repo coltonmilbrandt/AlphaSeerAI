@@ -1,8 +1,8 @@
-import passport from "passport"
-import { GoogleStrategyConfig } from "../../../server"
+// import passport from "passport"
+// import { GoogleStrategyConfig } from "../../../server"
 
-passport.use(GoogleStrategyConfig)
+// passport.use(GoogleStrategyConfig)
 
-export default (req, res) => {
-	passport.authenticate("google", { scope: ["profile", "email"] })(req, res)
-}
+// export default (req, res) => {
+// 	passport.authenticate("google", { scope: ["profile", "email"] })(req, res)
+// }

@@ -9,4 +9,5 @@ export default (req, res, next) => {
 		scope: ["profile", "email"],
 		state: "signup",
 	})(req, res, next)
+	console.log("arrived at signup route (after passport.authenticate)")
 }
