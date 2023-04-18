@@ -8,6 +8,7 @@ const dotenv = require("dotenv")
 const morgan = require("morgan") // makes it so every request shows in console
 dotenv.config({ path: ".env.local" })
 const router = express.Router()
+const GoogleStrategyConfig = require("./config/passport")
 
 const app = express()
 app.use(cors())
@@ -30,64 +31,6 @@ if (process.env.NODE_ENV === "development") {
 	console.log("Logging enabled")
 }
 
-// User schema and model
-const userSchema = new mongoose.Schema({
-	googleId: String,
-	displayName: String,
-	email: String,
-})
-
-const User =
-	mongoose.connection.models.User || mongoose.model("User", userSchema)
-
-// Check if User model exists before defining it
-if (!mongoose.connection.models.User) {
-	mongoose.model("User", userSchema)
-}
-
-// Passport setup
-const GoogleStrategyConfig = new GoogleStrategy(
-	{
-		clientID: process.env.GOOGLE_CLIENT_ID,
-		clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-		callbackURL: "/api/auth/google/callback",
-		passReqToCallback: true, // this code breaks, so that profile.id is undefined
-	},
-	async (req, accessToken, refreshToken, profile, done) => {
-		console.log("profile ID:", profile.id)
-		let existingUser = await User.findOne({ googleId: profile.id })
-
-		console.log("accessToken:", accessToken)
-		console.log("refreshToken:", refreshToken)
-		console.log("profile:", profile)
-		console.log("existingUser:", existingUser)
-		console.log("reqQueryState:", req.query.state)
-
-		if (existingUser) {
-			// If the user exists, log the user in
-			done(null, existingUser)
-		} else {
-			// If the user doesn't exist, create a new user
-			const newUser = await new User({
-				googleId: profile.id,
-				displayName: profile.displayName,
-				email: profile.emails[0].value,
-			}).save()
-
-			done(null, newUser)
-		}
-	}
-)
-
-passport.serializeUser((user, done) => {
-	done(null, user.id)
-})
-
-passport.deserializeUser(async (id, done) => {
-	const user = await User.findById(id)
-	done(null, id)
-})
-
 // Middlewares
 app.use(passport.initialize())
 app.use(passport.session())
@@ -99,9 +42,21 @@ app.use(
 )
 
 // Start server
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 3009
+const server = app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
+})
+
+server.on("error", (err) => {
+	console.error(`Server error: ${err}`)
+})
+
+process.on("SIGTERM", () => {
+	console.log("Shutting down server...")
+	server.close(() => {
+		console.log("Server closed.")
+		process.exit(0)
+	})
 })
 
 // Export the GoogleStrategyConfig
