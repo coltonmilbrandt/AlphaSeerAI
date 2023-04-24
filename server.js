@@ -41,17 +41,36 @@ app.use(
 	})
 )
 
+// Error handling for routes
+app.use((err, req, res, next) => {
+	console.error(`Error occurred in ${req.method} ${req.url}: ${err.stack}`)
+	res.status(500).send("An internal error occurred.")
+})
+
 // Start server
 const PORT = process.env.PORT || 3009
 const server = app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
 })
 
-server.on("error", (err) => {
-	console.error(`Server error: ${err}`)
+server.on("uncaughtException", () => {
+	console.log("Uncaught Exception: Shutting down server...")
+	server.close(() => {
+		console.log("Server closed.")
+		process.exit(0)
+	})
 })
 
-process.on("SIGTERM", () => {
+server.on("error", (err) => {
+	if (err.code === "EADDRINUSE") {
+		console.error(`Port ${PORT} is already in use.`)
+		console.log(err)
+	} else {
+		console.error(`Server error: ${err}`)
+	}
+})
+
+server.on("SIGTERM", () => {
 	console.log("Shutting down server...")
 	server.close(() => {
 		console.log("Server closed.")

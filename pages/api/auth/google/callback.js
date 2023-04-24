@@ -19,18 +19,27 @@ export default async (req, res) => {
 			return res.redirect(`/error?error=${noUserError}`)
 		}
 
-		// Create a JWT for the user ID
-		const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-			expiresIn: "30d",
-		})
+		try {
+			// Create a JWT for the user ID
+			const token = jwt.sign(
+				{ userId: user._id },
+				process.env.JWT_SECRET,
+				{
+					expiresIn: "30d",
+				}
+			)
 
-		// Set the JWT as a cookie
-		res.setHeader(
-			"Set-Cookie",
-			`token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax`
-		)
+			// Set the JWT as a cookie
+			res.setHeader(
+				"Set-Cookie",
+				`token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax`
+			)
 
-		// Redirect the user to the dashboard on successful login
-		res.redirect("/dashboard")
+			// Redirect the user to the dashboard on successful login
+			res.redirect("/dashboard")
+		} catch (jwtError) {
+			console.error("Error in creating and setting JWT:", jwtError)
+			res.redirect(`/error?error=${jwtError.message}`)
+		}
 	})(req, res)
 }
