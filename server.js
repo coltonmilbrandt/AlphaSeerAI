@@ -5,9 +5,8 @@ const cors = require("cors")
 const cookieSession = require("cookie-session")
 const GoogleStrategy = require("passport-google-oauth20").Strategy
 const dotenv = require("dotenv")
-const morgan = require("morgan") // makes it so every request shows in console
+const morgan = require("morgan")
 dotenv.config({ path: ".env.local" })
-const router = express.Router()
 const GoogleStrategyConfig = require("./config/passport")
 
 const app = express()
@@ -26,7 +25,6 @@ db.once("open", () => {
 
 // Logging
 if (process.env.NODE_ENV === "development") {
-	// if development, log requests with morgan
 	app.use(morgan("dev"))
 	console.log("Logging enabled")
 }
@@ -47,36 +45,36 @@ app.use((err, req, res, next) => {
 	res.status(500).send("An internal error occurred.")
 })
 
-// Start server
-const PORT = process.env.PORT || 3009
-const server = app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`)
-})
+// Set PORT based on environment
+const PORT =
+	process.env.NODE_ENV === "development" ? 3001 : process.env.PORT || 3001
 
-server.on("uncaughtException", () => {
-	console.log("Uncaught Exception: Shutting down server...")
-	server.close(() => {
-		console.log("Server closed.")
-		process.exit(0)
+const startServer = () => {
+	const server = app.listen(PORT, () => {
+		console.log(`Server running on port ${server.address().port}`)
 	})
-})
 
-server.on("error", (err) => {
-	if (err.code === "EADDRINUSE") {
-		console.error(`Port ${PORT} is already in use.`)
-		console.log(err)
-	} else {
-		console.error(`Server error: ${err}`)
+	server.on("error", (err) => {
+		if (err.code === "EADDRINUSE") {
+			console.error(`Port ${PORT} is already in use.`)
+			console.log(err)
+		} else {
+			console.error(`Server error: ${err}`)
+		}
+	})
+
+	const handleShutdown = () => {
+		console.log("Shutting down server...")
+		server.close(() => {
+			console.log("Server closed.")
+			process.exit(0)
+		})
 	}
-})
 
-server.on("SIGTERM", () => {
-	console.log("Shutting down server...")
-	server.close(() => {
-		console.log("Server closed.")
-		process.exit(0)
-	})
-})
+	process.on("SIGINT", handleShutdown)
+	process.on("SIGTERM", handleShutdown)
+}
 
-// Export the GoogleStrategyConfig
+startServer()
+
 module.exports = { GoogleStrategyConfig }
